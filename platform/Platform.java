@@ -23,4 +23,24 @@ public class Platform {
     public int getTotalMovies() {
         return content.size();
     }
+
+    public void showTitles() {
+        System.out.println("Películas disponibles en " + this.name + ":");
+        for (Movie movie : content) {
+            System.out.println(movie.getTitle());
+        }
+    }
+
+    public Movie getMovieByTitle(String title) {
+        for (Movie movie : content) {
+            if (movie.getTitle().equalsIgnoreCase(title)) {
+                return movie;
+            }
+        }
+        return null; // Si no se encuentra la película
+    }
+
+    public void removeContent(Movie movie) {
+        content.remove(movie);
+    }
 }

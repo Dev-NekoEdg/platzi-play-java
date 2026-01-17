@@ -16,6 +16,7 @@ public class Movie {
         this.title = title;
         this.duration = duration;
         this.genre = genre;
+        this.premiereDate = LocalDate.now();
     }
 
     public void Play() {
