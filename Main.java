@@ -13,13 +13,19 @@ public class Main {
     public static final int PLATFORM_ADD_OPTION = 1;
     public static final int PLATFORM_SHOW_ALL_OPTION = 2;
     public static final int PLATFORM_SEARCH_BY_TITLE_OPTION = 3;
-    public static final int PLATFORM_DELETE_OPTION = 4;
-    public static final int PLATFORM_EXIT_OPTION = 5;
+    public static final int PLATFORM_SEARCH_BY_GENRE_OPTION = 4;
+    public static final int PLATFORM_DELETE_OPTION = 5;
+    public static final int PLATFORM_EXIT_OPTION = 6;
     private static Platform platform = new Platform(PLATFORM_NAME);
 
     public static void main(String[] args) {
         System.out.println(PLATFORM_NAME + " v" + VERSION);
         InitialLoad(platform);
+
+        System.out.println("Bienvenido a " + PLATFORM_NAME + "!");
+        System.out.println("Más de " + platform.getTotalMovies() + " películas disponibles.");
+        System.out
+                .println("La duración total de todas las películas es de " + platform.getTotalDuration() + " minutos.");
 
         while (true) {
 
@@ -28,8 +34,9 @@ public class Main {
                         1. Agregar contenido
                         2. Mostrar todo
                         3. Buscar Por título
-                        4. Eliminar
-                        5. Salir
+                        4. Buscar por género
+                        5. Eliminar
+                        6. Salir
                     """);
 
             System.out.println("Opción seleccionada: " + option);
@@ -43,6 +50,9 @@ public class Main {
                     break;
                 case PLATFORM_SEARCH_BY_TITLE_OPTION:
                     FindByTitle();
+                    break;
+                case PLATFORM_SEARCH_BY_GENRE_OPTION:
+                    FindByGenre();
                     break;
                 case PLATFORM_DELETE_OPTION:
                     Delete();
@@ -72,7 +82,8 @@ public class Main {
     }
 
     private static void ShowAll() {
-        platform.showTitles();
+        // platform.showTitles();
+        platform.getTitles().forEach(System.out::println);
     }
 
     private static void FindByTitle() {
@@ -97,6 +108,17 @@ public class Main {
         }
     }
 
+    private static void FindByGenre() {
+        String genre = CustomUtils.GetString("Ingrese el género de las películas a buscar:");
+        var movies = platform.getMoviesByGenre(genre);
+        if (!movies.isEmpty()) {
+            System.out.println("Películas encontradas:");
+            movies.forEach(mov -> System.out.println(mov.GetDatasheet() + "\n------------------"));
+        } else {
+            System.out.println("No se encontraron películas de ese género.");
+        }
+    }
+
     private static void InitialLoad(Platform platform) {
         Movie movie1 = new Movie("Inception", 148, "Sci-Fi");
         movie1.setDescription("A thief who steals corporate secrets through the use of dream-sharing technology.");
@@ -113,6 +135,17 @@ public class Main {
                 "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.");
         movie3.Rate(4.7);
         platform.addContent(movie3);
+
+        Movie movie4 = new Movie("Avatar", 220, "Sci-Fi");
+        movie4.setDescription(
+                "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.");
+        movie4.Rate(4.8);
+        platform.addContent(movie4);
+
+        Movie movie5 = new Movie("Men In Black", 150, "Sci-Fi");
+        movie5.setDescription("A group of agents who protect Earth from alien threats.");
+        movie5.Rate(4.8);
+        platform.addContent(movie5);
     }
 
     private static void IdividualPlatform() {
