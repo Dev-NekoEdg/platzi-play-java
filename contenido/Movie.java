@@ -6,13 +6,13 @@ public class Movie {
     private String title;
     private String description;
     private int duration;
-    private String genre;
+    private Genre genre;
     // public int premierYear;
     private LocalDate premiereDate;
     private double rating;
     private boolean isAvailable;
 
-    public Movie(String title, int duration, String genre) {
+    public Movie(String title, int duration, Genre genre) {
         this.title = title;
         this.duration = duration;
         this.genre = genre;
@@ -58,10 +58,10 @@ public class Movie {
     public void setDuration(int duration) {
         this.duration = duration;
     }
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
     public LocalDate getPremiereDate() {

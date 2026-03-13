@@ -1,6 +1,8 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import contenido.Genre;
 import contenido.Movie;
 import platform.Platform;
 import platform.User;
@@ -14,8 +16,9 @@ public class Main {
     public static final int PLATFORM_SHOW_ALL_OPTION = 2;
     public static final int PLATFORM_SEARCH_BY_TITLE_OPTION = 3;
     public static final int PLATFORM_SEARCH_BY_GENRE_OPTION = 4;
-    public static final int PLATFORM_DELETE_OPTION = 5;
-    public static final int PLATFORM_EXIT_OPTION = 6;
+    public static final int PLATFORM_GET_POPULAR_OPTION = 5;
+    public static final int PLATFORM_DELETE_OPTION = 6;
+    public static final int PLATFORM_EXIT_OPTION = 7;
     private static Platform platform = new Platform(PLATFORM_NAME);
 
     public static void main(String[] args) {
@@ -35,8 +38,9 @@ public class Main {
                         2. Mostrar todo
                         3. Buscar Por título
                         4. Buscar por género
-                        5. Eliminar
-                        6. Salir
+                        5. Ver películas más populares
+                        6. Eliminar
+                        7. Salir
                     """);
 
             System.out.println("Opción seleccionada: " + option);
@@ -53,6 +57,9 @@ public class Main {
                     break;
                 case PLATFORM_SEARCH_BY_GENRE_OPTION:
                     FindByGenre();
+                    break;
+                    case PLATFORM_GET_POPULAR_OPTION:
+                    GetPopular();
                     break;
                 case PLATFORM_DELETE_OPTION:
                     Delete();
@@ -75,7 +82,8 @@ public class Main {
         int duration = CustomUtils.GetInt("Ingrese duración de la película:");
         double rate = CustomUtils.GetDecimal("ingrese el rating de la película:");
 
-        Movie movie = new Movie(title, duration, genre);
+        Genre genreEnum = Genre.valueOf(genre.toUpperCase());
+        Movie movie = new Movie(title, duration, genreEnum);
         movie.setDescription(description);
         movie.Rate(rate);
         platform.addContent(movie);
@@ -110,7 +118,8 @@ public class Main {
 
     private static void FindByGenre() {
         String genre = CustomUtils.GetString("Ingrese el género de las películas a buscar:");
-        var movies = platform.getMoviesByGenre(genre);
+        Genre genreEnum = Genre.valueOf(genre.toUpperCase());
+        var movies = platform.getMoviesByGenre(genreEnum);
         if (!movies.isEmpty()) {
             System.out.println("Películas encontradas:");
             movies.forEach(mov -> System.out.println(mov.GetDatasheet() + "\n------------------"));
@@ -119,30 +128,36 @@ public class Main {
         }
     }
 
+    private static void GetPopular() {
+        System.out.println("Películas más populares:");
+        List<Movie> movies = platform.getPopularMovies(3);
+        movies.forEach(mov -> System.out.println(mov.GetDatasheet() + "\n------------------"));
+    }
+
     private static void InitialLoad(Platform platform) {
-        Movie movie1 = new Movie("Inception", 148, "Sci-Fi");
+        Movie movie1 = new Movie("Inception", 148, Genre.SCI_FI);
         movie1.setDescription("A thief who steals corporate secrets through the use of dream-sharing technology.");
         movie1.Rate(4.8);
         platform.addContent(movie1);
 
-        Movie movie2 = new Movie("The Dark Knight", 152, "Action");
+        Movie movie2 = new Movie("The Dark Knight", 152, Genre.ACTION);
         movie2.setDescription("When the menace known as the Joker wreaks havoc and chaos on the people of Gotham.");
         movie2.Rate(4.9);
         platform.addContent(movie2);
 
-        Movie movie3 = new Movie("Interstellar", 169, "Adventure");
+        Movie movie3 = new Movie("Interstellar", 169, Genre.SCI_FI);
         movie3.setDescription(
                 "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.");
         movie3.Rate(4.7);
         platform.addContent(movie3);
 
-        Movie movie4 = new Movie("Avatar", 220, "Sci-Fi");
+        Movie movie4 = new Movie("Avatar", 220, Genre.SCI_FI);
         movie4.setDescription(
                 "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.");
         movie4.Rate(4.8);
         platform.addContent(movie4);
 
-        Movie movie5 = new Movie("Men In Black", 150, "Sci-Fi");
+        Movie movie5 = new Movie("Men In Black", 150, Genre.SCI_FI);
         movie5.setDescription("A group of agents who protect Earth from alien threats.");
         movie5.Rate(4.8);
         platform.addContent(movie5);
@@ -161,7 +176,8 @@ public class Main {
         int duration = CustomUtils.GetInt("Ingrese duración de la película:");
         double rate = CustomUtils.GetDecimal("ingrese el rating de la película:");
 
-        Movie movie = new Movie(title, duration, genre);
+        Genre genreEnum = Genre.valueOf(genre.toUpperCase());
+        Movie movie = new Movie(title, duration, genreEnum);
         movie.setDescription(description);
         movie.Rate(rate);
 
@@ -174,7 +190,7 @@ public class Main {
         // System.out.println(movie.getTitle());
 
         platform.addContent(movie);
-        Movie movie2 = new Movie("Movie 2", 120, "Action");
+        Movie movie2 = new Movie("Movie 2", 120, Genre.COMEDY);
         platform.addContent(movie2);
 
         System.out.println("# of movies in platform: " + platform.getTotalMovies());

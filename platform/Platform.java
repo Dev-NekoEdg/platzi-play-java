@@ -1,8 +1,10 @@
 package platform;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
+import contenido.Genre;
 import contenido.Movie;
 
 public class Platform {
@@ -56,10 +58,10 @@ public class Platform {
                 .findFirst().orElse(null);
     }
 
-    public List<Movie> getMoviesByGenre(String genre) {
+    public List<Movie> getMoviesByGenre(Genre genre) {
         // lambda expression
         return content.stream()
-                .filter(mov -> mov.getGenre().equalsIgnoreCase(genre))
+                .filter(mov -> mov.getGenre().equals(genre))
                 .toList();
     }
 
@@ -68,6 +70,13 @@ public class Platform {
         return content.stream()
                 .mapToInt(Movie::getDuration)
                 .sum();
+    }
+
+    public List<Movie> getPopularMovies(int topN) {
+        return content.stream()
+        .sorted(Comparator.comparingDouble(Movie::getRating).reversed())
+        .limit(topN)
+        .toList();
     }
 
     public void removeContent(Movie movie) {
