@@ -6,6 +6,7 @@ import java.util.List;
 
 import contenido.Genre;
 import contenido.Movie;
+import exception.MovieExistsException;
 
 public class Platform {
 
@@ -18,6 +19,10 @@ public class Platform {
     }
 
     public void addContent(Movie newMovie) {
+        Movie existingMovie = getMovieByTitle(newMovie.getTitle());
+        if (existingMovie != null) {
+            throw new MovieExistsException(existingMovie.getTitle());
+        }
         content.add(newMovie);
     }
 

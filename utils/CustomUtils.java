@@ -2,6 +2,8 @@ package utils;
 
 import java.util.Scanner;
 
+import contenido.Genre;
+
 public class CustomUtils {
 
     public static Scanner scanner = new Scanner(System.in);
@@ -31,5 +33,24 @@ public class CustomUtils {
         double data = scanner.nextDouble();
         scanner.nextLine();
         return data;
+    }
+
+    public static Genre GetGenre(String message) {
+        while(true){
+            System.out.println("Los géneros disponibles son:");
+            for (Genre genre : Genre.values()) {
+                System.out.println("- " + genre);
+            }
+            String genre = GetString(message);
+            try 
+            {
+                Genre.valueOf(genre.toUpperCase());
+                return Genre.valueOf(genre.toUpperCase());
+            } 
+            catch (IllegalArgumentException e) {
+                System.out.println("Género no válido. Por favor, ingrese un género válido.");
+            }
+
+        }
     }
 }

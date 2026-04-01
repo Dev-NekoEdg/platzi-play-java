@@ -4,6 +4,7 @@ import java.util.List;
 
 import contenido.Genre;
 import contenido.Movie;
+import exception.MovieExistsException;
 import platform.Platform;
 import platform.User;
 import utils.CustomUtils;
@@ -86,7 +87,12 @@ public class Main {
         Movie movie = new Movie(title, duration, genreEnum);
         movie.setDescription(description);
         movie.Rate(rate);
-        platform.addContent(movie);
+        try {
+            platform.addContent(movie);
+            System.out.println("Película agregada exitosamente.");
+        } catch (MovieExistsException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void ShowAll() {
@@ -117,8 +123,10 @@ public class Main {
     }
 
     private static void FindByGenre() {
-        String genre = CustomUtils.GetString("Ingrese el género de las películas a buscar:");
-        Genre genreEnum = Genre.valueOf(genre.toUpperCase());
+        // String genre = CustomUtils.GetString("Ingrese el género de las películas a buscar:");
+        // Genre genreEnum = Genre.valueOf(genre.toUpperCase());
+        Genre genreEnum = CustomUtils.GetGenre("Ingrese el género de las películas a buscar:"
+        );
         var movies = platform.getMoviesByGenre(genreEnum);
         if (!movies.isEmpty()) {
             System.out.println("Películas encontradas:");
