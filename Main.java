@@ -18,8 +18,9 @@ public class Main {
     public static final int PLATFORM_SEARCH_BY_TITLE_OPTION = 3;
     public static final int PLATFORM_SEARCH_BY_GENRE_OPTION = 4;
     public static final int PLATFORM_GET_POPULAR_OPTION = 5;
-    public static final int PLATFORM_DELETE_OPTION = 6;
-    public static final int PLATFORM_EXIT_OPTION = 7;
+    public static final int PLATFORM_PLAY_MOVIE_OPTION = 6;
+    public static final int PLATFORM_DELETE_OPTION = 7;
+    public static final int PLATFORM_EXIT_OPTION = 8;
     private static Platform platform = new Platform(PLATFORM_NAME);
 
     public static void main(String[] args) {
@@ -40,8 +41,9 @@ public class Main {
                         3. Buscar Por título
                         4. Buscar por género
                         5. Ver películas más populares
-                        6. Eliminar
-                        7. Salir
+                        6. Reproducir película
+                        7. Eliminar
+                        8. Salir
                     """);
 
             System.out.println("Opción seleccionada: " + option);
@@ -62,6 +64,9 @@ public class Main {
                     case PLATFORM_GET_POPULAR_OPTION:
                     GetPopular();
                     break;
+                case PLATFORM_PLAY_MOVIE_OPTION:
+                    PlayMovie();
+                    break;
                 case PLATFORM_DELETE_OPTION:
                     Delete();
                     break;
@@ -71,6 +76,11 @@ public class Main {
             }
         }
 
+    }
+
+    private static void PlayMovie() {
+        String title = CustomUtils.GetString("Ingrese el título de la película a reproducir:");
+        platform.playMovie(title);
     }
 
     private static void Add() {
@@ -97,7 +107,8 @@ public class Main {
 
     private static void ShowAll() {
         // platform.showTitles();
-        platform.getTitles().forEach(System.out::println);
+        // platform.getTitles().forEach(System.out::println);
+        platform.getMovieSummaries().forEach(System.out::println);
     }
 
     private static void FindByTitle() {
